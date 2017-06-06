@@ -2,7 +2,7 @@
 A leaflet plugin that provides a hook to save the map state as JSON.
 
 
-```
+```js
 map.save(function (mapState) {
     // post state to an endpoint
     // http.post(mapState);
@@ -15,17 +15,17 @@ map.save(function (mapState) {
 ```
 
 
-```
+```json
 {
-    zoom: number,
-    center: [lat, lng],
-    bounds: [[northEastLat, northEastLng], [southWestLat, southWestLng]],
-    layers: [
+    "zoom": "number",
+    "center": ["lat", "lng"],
+    "bounds": [["northEastLat", "northEastLng"], ["southWestLat", "southWestLng"]],
+    "layers": [
         {
-            type: 'TileLayer|TileLayer.WMS|FeatureGroup',
-            url: 'http://...',
-            options: {},
-            basemap: true|false
+            "type": "TileLayer|TileLayer.WMS|FeatureGroup",
+            "url": "http://...",
+            "options": {},
+            "basemap": "true|false"
         }
     ]
 }
