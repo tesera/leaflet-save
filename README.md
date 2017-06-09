@@ -15,20 +15,34 @@ A leaflet plugin that provides a hook to save the map state as JSON.
 
 ```json
 {
-    "zoom": 4,
+    "zoom": 2,
     "center": [
-        46.07323062540835,
-        -99.27246093750001
+        0,
+        0
     ],
     "bounds": [
         [
-            68.46379955520322,
-            -127.88085937500001
+            84.33698037639608,
+            -114.25781250000001
         ],
         [
-            8.928487062665504,
-            -70.66406250000001
+            -84.33698037639608,
+            114.60937500000001
         ]
+    ],
+    "layers": [
+        {
+            "type": "TileLayer",
+            "options": {
+                "maxZoom": 18,
+                "attribution": "Map data © OpenStreetMap contributors",
+                "subdomains": [
+                    "a",
+                    "b",
+                    "c"
+                ]
+            }
+        }
     ]
 }
 ```
