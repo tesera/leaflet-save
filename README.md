@@ -1,15 +1,8 @@
 # leaflet-save
 A leaflet plugin that provides a hook to save the map state as JSON.
 
-    map.save(function (mapState) {
-        // post state to an endpoint
-        // http.post(mapState);
+    var state = map.save();
 
-        // save state to local storage
-        // localStorage.set('map', mapState);
-
-        console.log(mapState);
-    });
 
 
     {
@@ -21,6 +14,7 @@ A leaflet plugin that provides a hook to save the map state as JSON.
                 "type": "TileLayer|TileLayer.WMS|FeatureGroup",
                 "url": "http://...",
                 "options": {},
+                "basemap": "true|false"
             }
         ]
     }
