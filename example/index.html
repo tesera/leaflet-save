@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>leaflet-save</title>
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css"
+        integrity="sha512-07I2e+7D8p6he1SIM+1twR5TIrhUQn9+I6yjqD53JQjFiMf8EtC93ty0/5vJTZGF8aAocvHYNEDJajGdNx1IsQ=="
+        crossorigin=""/>
+        <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+        <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.1/leaflet.css" />
+        <link rel="stylesheet" href="https://unpkg.com/leaflet-easybutton@2.0.0/src/easy-button.css">
+        <style>
+            html, body { height:  100% }
+            body { margin-top: 0; background-color: lightgrey; display:  flex }
+            #map, #output { flex-direction: columns; background-color: lightgrey; width: 50%; height: 100% }
+            #output { padding-left: 40px }
+        </style>
+    </head>
+    <body>
+        <div id='map'></div>
+        <div id='output'>
+            <h1>Saved Map State</h1>
+            <pre id='state'>Output JSON here</pre>
+        </div>
+        <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"
+            integrity="sha512-A7vV8IFfih/D732iSSKi20u/ooOfj/AGehOKq0f4vLT1Zr2Y+RX7C+w8A1gaSasGtRUZpF/NZgzSAu4/Gc41Lg=="
+            crossorigin=""></script>
+        <script src="../saveState.js"></script>
+        <script src="../loadState.js"></script>
+        <script src="https://cdn.rawgit.com/tesera/leaflet-easy-control/master/index.js"></script>
+        <script>
+            var map = L.map('map').setView([0, 0], 2)
+            L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 18,
+                attribution: 'Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'}).addTo(map)
+            map.addControl(L.Control.easyControl({
+                label: 'Save',
+                onClick: function () {
+                    var state = map.save();
+                    document.getElementById('state').innerHTML = JSON.stringify(state, null, '\t')
+                }
+            }).addTo(map));
+            L.tileLayer.wms("http://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0r.cgi", {
+                    layers: 'nexrad-n0r-900913',
+                    format: 'image/png',
+                    transparent: true,
+                    attribution: "Weather data © 2012 IEM Nexrad"
+            }).addTo(map);
+            var marker = L.marker([51.5, -0.09])
+            var circle = L.circle([51.508, -0.11], {
+                color: 'red',
+                fillColor: '#f03',
+                fillOpacity: 0.5,
+                radius: 500
+            })
+            var polylinePoints = [
+                [57.77, -30.43],
+                [65.04, -1],
+                [34, 43],
+                [34, 0],
+                [50, -33]
+
+            ];
+            var polyline = L.polyline(polylinePoints, {
+                color: 'crimson'
+
+            })
+            var circleMarker = L.circleMarker([51.55, -0.1], {
+                "color": "crimson",
+                "fillColor": "magenta",
+                "fillOpacity": 0.5,
+                "radius": 40
+            })
+            var polygon = L.polygon([
+                [51.509, -0.08],
+                [51.503, -0.06],
+                [51.51, -0.047]
+            ]);
+            var rectBounds = [[54.559322, -5.767822], [56.1210604, -3.021240]];
+            var rectangle = L.rectangle(rectBounds, {
+                color: "#ff7800",
+                weight: 1});
+            L.featureGroup([marker, circle, polygon, rectangle, circleMarker, polyline])
+                .bindPopup('Hello world!')
+                .on('click', function() { alert('Clicked on a member of the group!'); }).addTo(map);
+            map.addControl(L.Control.easyControl({
+                label: 'Load',
+                onClick: function (map) {
+                    json = {
+                        "IDs": [
+                            63,
+                            62,
+                            64,
+                            65,
+                            66,
+                            67,
+                            68,
+                            26,
+                            45
+                        ],
+                        "zoom": 12,
+                        "center": [
+                            51.498377681772325,
+                            -0.08668899536132812
+                        ],
+                        "bounds": [
+                            [
+                                51.59733439153138,
+                                -0.17200469970703128
+                            ],
+                            [
+                                51.39920565355378,
+                                -0.001373291015625
+                            ]
+                        ],
+                        "layers": [
+                            {
+                                "type": "FeatureGroup",
+                                "leafletId": 63,
+                                "options": {},
+                                "contents": 6,
+                                "features": [
+                                    {
+                                        "type": "Marker",
+                                        "leafletId": 62,
+                                        "geoJSON": {
+                                            "type": "Feature",
+                                            "properties": {},
+                                            "geometry": {
+                                                "type": "Point",
+                                                "coordinates": [
+                                                    -0.09,
+                                                    51.5
+                                                ]
+                                            }
+                                        },
+                                        "options": {}
+                                    },
+                                    {
+                                        "type": "Circle",
+                                        "leafletId": 64,
+                                        "geoJSON": {
+                                            "type": "Feature",
+                                            "properties": {},
+                                            "geometry": {
+                                                "type": "Point",
+                                                "coordinates": [
+                                                    -0.11,
+                                                    51.508
+                                                ]
+                                            }
+                                        },
+                                        "options": {
+                                            "color": "red",
+                                            "fillColor": "#f03",
+                                            "fillOpacity": 0.5,
+                                            "radius": 500
+                                        }
+                                    },
+                                    {
+                                        "type": "Polygon",
+                                        "leafletId": 65,
+                                        "geoJSON": {
+                                            "type": "Feature",
+                                            "properties": {},
+                                            "geometry": {
+                                                "type": "Polygon",
+                                                "coordinates": [
+                                                    [
+                                                        [
+                                                            -0.08,
+                                                            51.509
+                                                        ],
+                                                        [
+                                                            -0.06,
+                                                            51.503
+                                                        ],
+                                                        [
+                                                            -0.047,
+                                                            51.51
+                                                        ],
+                                                        [
+                                                            -0.08,
+                                                            51.509
+                                                        ]
+                                                    ]
+                                                ]
+                                            }
+                                        },
+                                        "options": {}
+                                    },
+                                    {
+                                        "type": "Rectangle",
+                                        "leafletId": 66,
+                                        "geoJSON": {
+                                            "type": "Feature",
+                                            "properties": {},
+                                            "geometry": {
+                                                "type": "Polygon",
+                                                "coordinates": [
+                                                    [
+                                                        [
+                                                            -5.767822,
+                                                            54.559322
+                                                        ],
+                                                        [
+                                                            -5.767822,
+                                                            56.1210604
+                                                        ],
+                                                        [
+                                                            -3.02124,
+                                                            56.1210604
+                                                        ],
+                                                        [
+                                                            -3.02124,
+                                                            54.559322
+                                                        ],
+                                                        [
+                                                            -5.767822,
+                                                            54.559322
+                                                        ]
+                                                    ]
+                                                ]
+                                            }
+                                        },
+                                        "options": {
+                                            "color": "#ff7800",
+                                            "weight": 1
+                                        }
+                                    },
+                                    {
+                                        "type": "CircleMarker",
+                                        "leafletId": 67,
+                                        "geoJSON": {
+                                            "type": "Feature",
+                                            "properties": {},
+                                            "geometry": {
+                                                "type": "Point",
+                                                "coordinates": [
+                                                    -0.1,
+                                                    51.55
+                                                ]
+                                            }
+                                        },
+                                        "options": {
+                                            "color": "crimson",
+                                            "fillColor": "magenta",
+                                            "fillOpacity": 0.5,
+                                            "radius": 40
+                                        }
+                                    },
+                                    {
+                                        "type": "Polyline",
+                                        "leafletId": 68,
+                                        "geoJSON": {
+                                            "type": "Feature",
+                                            "properties": {},
+                                            "geometry": {
+                                                "type": "LineString",
+                                                "coordinates": [
+                                                    [
+                                                        -30.43,
+                                                        57.77
+                                                    ],
+                                                    [
+                                                        -1,
+                                                        65.04
+                                                    ],
+                                                    [
+                                                        43,
+                                                        34
+                                                    ],
+                                                    [
+                                                        0,
+                                                        34
+                                                    ],
+                                                    [
+                                                        -33,
+                                                        50
+                                                    ]
+                                                ]
+                                            }
+                                        },
+                                        "options": {
+                                            "color": "crimson"
+                                        }
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "TileLayer",
+                                "leafletId": 26,
+                                "url": "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                                "options": {
+                                    "maxZoom": 18,
+                                    "attribution": "Map data © OpenStreetMap contributors",
+                                    "subdomains": [
+                                        "a",
+                                        "b",
+                                        "c"
+                                    ]
+                                }
+                            },
+                            {
+                                "type": "TileLayer.wms",
+                                "leafletId": 45,
+                                "url": "http://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0r.cgi",
+                                "options": {
+                                    "layers": "nexrad-n0r-900913",
+                                    "format": "image/png",
+                                    "transparent": true,
+                                    "attribution": "Weather data © 2012 IEM Nexrad"
+                                }
+                            }
+                        ]
+                    }
+                    map.load(json, map);
+                }
+            }));
+        </script>
+    </body>
+</html>
