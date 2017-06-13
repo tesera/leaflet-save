@@ -1,4 +1,4 @@
-# leaflet-save
+
 A leaflet plugin that provides hooks to save the map state as JSON, as well as to load a saved map state from JSON.
 
 ```js
@@ -23,6 +23,46 @@ A leaflet plugin that provides hooks to save the map state as JSON, as well as t
 
 ```json
 {
+    "zoom": "number",
+    "center": ["lat", "lng"],
+    "bounds": [["northEastLat", "northEastLng"], ["southWestLat", "southWestLng"]],
+    "layers": [
+        {
+            "type": "TileLayer|TileLayer.WMS|FeatureGroup",
+            "url": "http://...",
+            "options": {},
+            "basemap": "true|false"
+        }
+    ]
+}
+```
+A leaflet plugin that provides hooks to save the map state as JSON, as well as to load a saved map state from JSON.
+
+```js
+    var state = map.save();
+    // post state to an endpoint
+    // http.post(mapState);
+
+    // save state to local storage
+    // localStorage.set('map', mapState);
+
+    console.log(state);
+```
+
+
+```js
+    var json = {
+        //some json here...
+    }
+    map.load(json);
+```
+
+
+```json
+{
+    "zoom": "number",
+    "center": ["lat", "lng"],
+    "bounds": [["northEastLat", "northEastLng"], ["southWestLat", "southWestLng"]],
     "IDs": [
         90,
         89,
@@ -51,6 +91,10 @@ A leaflet plugin that provides hooks to save the map state as JSON, as well as t
     ],
     "layers": [
         {
+            "type": "TileLayer|TileLayer.WMS|FeatureGroup",
+            "url": "http://...",
+            "options": {},
+            "basemap": "true|false"
             "type": "FeatureGroup",
             "leafletId": 90,
             "options": {},
